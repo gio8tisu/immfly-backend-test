@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+
+  backend:
+    build: ./
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - 8000:8000
+    environment:
+      - DEBUG=1
+      - DJANGO_SETTINGS_MODULE=immfly.settings
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - DB_HOST=db
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      - db
+
+  db:
+    image: postgres:12.5
+    volumes:
+      - database_data:/var/lib/postgresql/data/pgdata
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+
+  swagger:
+    image: swaggerapi/swagger-ui:v4.11.1
+    volumes:
+      - ./openapi.yaml:/app/openapi.yaml
+    environment:
+      - SWAGGER_JSON=/app/openapi.yaml
+    ports:
+      - 8080:8080
+
+  prism:
+    image: stoplight/prism:4
+    command: "mock -d -h 0.0.0.0 /app/openapi.yaml"
+    volumes:
+      - ./openapi.yaml:/app/openapi.yaml:ro
+    ports:
+      - 4010:4010
+
+volumes:
+  database_data:
