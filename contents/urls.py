@@ -5,5 +5,5 @@ from .api import (
 )
 
 urlpatterns = [
-    path("api/channels/", ChannelsListAPI.as_view(), "channels-list"),
+    path("channels/", ChannelsListAPI.as_view(), name="channels-list"),
 ]
