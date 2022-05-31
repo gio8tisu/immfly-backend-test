@@ -1,9 +1,7 @@
 from django.urls import path
 
-from .api import (
-    ChannelsListAPI,
-)
+from .api import channels_list
 
 urlpatterns = [
-    path("channels/", ChannelsListAPI.as_view(), name="channels-list"),
+    path("channels/", channels_list, name="channels-list"),
 ]
