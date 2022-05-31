@@ -55,7 +55,9 @@ paths:
                   results:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Channel"
+                      anyOf:
+                        - $ref: '#/components/schemas/ChannelWithContents'
+                        - $ref: '#/components/schemas/ChannelWithSubchannels'
           description: ""
       tags:
         - channels
@@ -75,7 +77,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Channel"
+                anyOf:
+                  - $ref: '#/components/schemas/ChannelWithContents'
+                  - $ref: '#/components/schemas/ChannelWithSubchannels'
           description: ""
       tags:
         - channels
@@ -83,43 +87,42 @@ paths:
 components:
   schemas:
     Channel:
-      oneOf:
-        - $ref: "#/components/schemas/ChannelWithContents"
-        - $ref: "#/components/schemas/ChannelWithSubchannels"
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        language:
+          type: string
+        picture:
+          type: string
+          format: uri
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 20
     ChannelWithContents:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        title:
-          type: string
-        language:
-          type: string
-        picture:
-          type: string
-          format: uri
-        contents:
-          type: array
-          items:
-            $ref: "#/components/schemas/Content"
+      allOf:
+        - $ref: '#/components/schemas/Channel'
+        - type: object
+          properties:
+            contents:
+              type: array
+              items:
+                $ref: "#/components/schemas/Content"
     ChannelWithSubchannels:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        title:
-          type: string
-        language:
-          type: string
-        picture:
-          type: string
-          format: uri
-        subchannels:
-          type: array
-          items:
-            $ref: "#/components/schemas/Channel"
+      allOf:
+        - $ref: '#/components/schemas/Channel'
+        - type: object
+          properties:
+            subchannels:
+              type: array
+              items:
+                anyOf:
+                  - $ref: '#/components/schemas/ChannelWithContents'
+                  - $ref: '#/components/schemas/ChannelWithSubchannels'
     Content:
       type: object
       properties:
@@ -135,6 +138,8 @@ components:
           $ref: "#/components/schemas/Metadata"
         rating:
           type: integer
+          minimum: 1
+          maximum: 20
     Metadata:
       type: object
       properties:
