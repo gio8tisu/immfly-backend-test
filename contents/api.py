@@ -14,3 +14,14 @@ def channels_list(request):
     channels = Channel.objects.all()
     serializer = ChannelSerializer(channels, many=True)
     return Response(serializer.data)
+
+
+@api_view(["GET"])
+def channel_detail(request, pk):
+    """
+    Retrieve a channel.
+    """
+    channel = get_object_or_404(Channel, pk=pk)
+
+    serializer = ChannelSerializer(channel)
+    return Response(serializer.data)
