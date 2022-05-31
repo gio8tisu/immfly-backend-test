@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Channel, Content
+from .models import Channel, ChannelLanguage, Content
 
 
 class ContentInline(admin.TabularInline):
@@ -28,3 +28,14 @@ class ContentAdmin(admin.ModelAdmin):
         )
     ]
     list_display = ["id", "rating", "channel"]
+
+
+@admin.register(ChannelLanguage)
+class ChannelLanguageAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (
+            "Language information",
+            {"fields": ["code", "language"]},
+        )
+    ]
+    list_display = ["id", "code", "language"]
