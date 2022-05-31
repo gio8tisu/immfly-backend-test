@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Channel, ChannelLanguage, Content
+from .models import Author, Channel, ChannelLanguage, Content, ContentGenre
 
 
 class ContentInline(admin.TabularInline):
@@ -12,7 +12,7 @@ class ChannelAdmin(admin.ModelAdmin):
     fieldsets = [
         (
             "Channel information",
-            {"fields": ["title", "language"]},
+            {"fields": ["title", "language", "picture"]},
         )
     ]
     list_display = ["id", "title"]
@@ -24,7 +24,7 @@ class ContentAdmin(admin.ModelAdmin):
     fieldsets = [
         (
             "Content information",
-            {"fields": ["rating", "channel"]},
+            {"fields": ["rating", "channel", "genre", "description", "authors"]},
         )
     ]
     list_display = ["id", "rating", "channel"]
@@ -39,3 +39,25 @@ class ChannelLanguageAdmin(admin.ModelAdmin):
         )
     ]
     list_display = ["id", "code", "language"]
+
+
+@admin.register(Author)
+class AuthorAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (
+            "Author information",
+            {"fields": ["name", "surname"]},
+        )
+    ]
+    list_display = ["id", "name", "surname"]
+
+
+@admin.register(ContentGenre)
+class ContentGenreAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (
+            "Genre information",
+            {"fields": ["name"]},
+        )
+    ]
+    list_display = ["id", "name"]
