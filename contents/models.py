@@ -34,3 +34,7 @@ class Author(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=32)
     surname = models.CharField(max_length=32)
+
+    @property
+    def full_name(self):
+        return f"{self.name} {self.surname}"

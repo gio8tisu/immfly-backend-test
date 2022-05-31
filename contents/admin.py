@@ -49,7 +49,7 @@ class AuthorAdmin(admin.ModelAdmin):
             {"fields": ["name", "surname"]},
         )
     ]
-    list_display = ["id", "name", "surname"]
+    list_display = ["id", "full_name"]
 
 
 @admin.register(ContentGenre)
