@@ -24,7 +24,16 @@ class ContentAdmin(admin.ModelAdmin):
     fieldsets = [
         (
             "Content information",
-            {"fields": ["rating", "channel", "genre", "description", "authors"]},
+            {
+                "fields": [
+                    "file",
+                    "rating",
+                    "channel",
+                    "genre",
+                    "description",
+                    "authors",
+                ]
+            },
         )
     ]
     list_display = ["id", "rating", "channel"]

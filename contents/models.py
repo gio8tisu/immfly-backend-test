@@ -12,6 +12,7 @@ class Channel(models.Model):
 
 class Content(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    file = models.FileField()
     rating = models.IntegerField()  # TODO: Must be between 0-10.
     channel = models.ForeignKey(
         Channel, on_delete=models.CASCADE, related_name="contents", null=True
