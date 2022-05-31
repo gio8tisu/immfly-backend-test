@@ -13,7 +13,9 @@ class Channel(models.Model):
 class Content(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     rating = models.IntegerField()  # TODO: Must be between 0-10.
-    channel = models.ForeignKey(Channel, on_delete=models.CASCADE, null=True)
+    channel = models.ForeignKey(
+        Channel, on_delete=models.CASCADE, related_name="contents", null=True
+    )
     genre = models.ForeignKey("ContentGenre", on_delete=models.PROTECT)
     description = models.CharField(max_length=1024)
     authors = models.ManyToManyField("Author")
@@ -27,7 +29,7 @@ class ChannelLanguage(models.Model):
 
 class ContentGenre(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=32)
+    name = models.CharField(max_length=32, unique=True)
 
 
 class Author(models.Model):
