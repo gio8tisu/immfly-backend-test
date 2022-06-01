@@ -1,5 +1,6 @@
 import uuid
 
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 
@@ -29,9 +30,15 @@ class Channel(models.Model):
 class Content(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     file = models.FileField()
-    rating = models.IntegerField()  # TODO: Must be between 0-10.
+    rating = models.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(10)]
+    )
     channel = models.ForeignKey(
-        Channel, on_delete=models.CASCADE, related_name="contents", null=True
+        Channel,
+        on_delete=models.CASCADE,
+        related_name="contents",
+        null=True,
+        blank=True,
     )
     genre = models.ForeignKey("ContentGenre", on_delete=models.PROTECT)
     description = models.CharField(max_length=1024)
