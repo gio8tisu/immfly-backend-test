@@ -18,12 +18,22 @@ class TestChannelAPI(TestCase):
             "language": channel.language.language,
             "rating": content_rating,
             "subchannels": [],
-            "contents": [f"http://testserver/api/contents/{content.id}/"],
+            "contents": [
+                {
+                    "id": str(content.id),
+                    "file": f"http://testserver{content.file.url}",
+                    "description": content.description,
+                    "rating": content_rating,
+                    "genre": content.genre.name,
+                    "authors": [],
+                }
+            ],
         }
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertDictEqual(response.data, expected_data)
 
     def test_channel_detail_with_single_subchannel_works(self):
+        self.maxDiff = None
         content_rating = 10.0
         content1 = ContentFactory(rating=content_rating)
         content2 = ContentFactory(rating=content_rating)
@@ -38,7 +48,33 @@ class TestChannelAPI(TestCase):
             "title": channel.title,
             "language": channel.language.language,
             "rating": content_rating,
-            "subchannels": [f"http://testserver/api/channels/{subchannel.id}/"],
+            "subchannels": [
+                {
+                    "id": str(subchannel.id),
+                    "title": subchannel.title,
+                    "language": subchannel.language.language,
+                    "rating": content_rating,
+                    "contents": [
+                        {
+                            "id": str(content1.id),
+                            "file": f"http://testserver{content1.file.url}",
+                            "description": content1.description,
+                            "rating": content_rating,
+                            "genre": content1.genre.name,
+                            "authors": [],
+                        },
+                        {
+                            "id": str(content2.id),
+                            "file": f"http://testserver{content2.file.url}",
+                            "description": content2.description,
+                            "rating": content_rating,
+                            "genre": content2.genre.name,
+                            "authors": [],
+                        },
+                    ],
+                    "subchannels": [],
+                }
+            ],
             "contents": [],
         }
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -61,8 +97,48 @@ class TestChannelAPI(TestCase):
             "language": channel.language.language,
             "rating": content_rating,
             "subchannels": [
-                f"http://testserver/api/channels/{subchannel1.id}/",
-                f"http://testserver/api/channels/{subchannel2.id}/",
+                {
+                    "id": str(subchannel1.id),
+                    "title": subchannel1.title,
+                    "language": subchannel1.language.language,
+                    "rating": content_rating,
+                    "contents": [
+                        {
+                            "id": str(content1.id),
+                            "file": f"http://testserver{content1.file.url}",
+                            "description": content1.description,
+                            "rating": content_rating,
+                            "genre": content1.genre.name,
+                            "authors": [],
+                        },
+                        {
+                            "id": str(content2.id),
+                            "file": f"http://testserver{content2.file.url}",
+                            "description": content2.description,
+                            "rating": content_rating,
+                            "genre": content2.genre.name,
+                            "authors": [],
+                        },
+                    ],
+                    "subchannels": [],
+                },
+                {
+                    "id": str(subchannel2.id),
+                    "title": subchannel2.title,
+                    "language": subchannel2.language.language,
+                    "rating": content_rating,
+                    "contents": [
+                        {
+                            "id": str(content3.id),
+                            "file": f"http://testserver{content3.file.url}",
+                            "description": content3.description,
+                            "rating": content_rating,
+                            "genre": content3.genre.name,
+                            "authors": [],
+                        },
+                    ],
+                    "subchannels": [],
+                },
             ],
             "contents": [],
         }

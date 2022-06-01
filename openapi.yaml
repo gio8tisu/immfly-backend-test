@@ -87,13 +87,11 @@ components:
         contents:
           type: array
           items:
-            type: string
-            format: uri
+            $ref: '#/components/schemas/Content'
         subchannels:
           type: array
           items:
-            type: string
-            format: uri
+            $ref: '#/components/schemas/Channel'
     Content:
       type: object
       properties:
