@@ -23,7 +23,5 @@ def compute_channel_rating(channel):
     return sum(subchannels_ratings) / len(subchannels_ratings)
 
 
-def get_channels_with_subchannels():
-    return Channel.objects.annotate(Count("subchannels")).filter(
-        subchannels__count__gt=0
-    )
+def get_node_channels():
+    return Channel.objects.filter(parent_channel=None)

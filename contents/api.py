@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from .models import Channel, Content
 from .serializers import ChannelSerializer, ContentSerializer
-from .services import get_channels_with_subchannels
+from .services import get_node_channels
 
 
 @api_view(["GET"])
@@ -12,7 +12,7 @@ def channels_list(request):
     """
     List channels.
     """
-    channels = get_channels_with_subchannels()
+    channels = get_node_channels()
     serializer = ChannelSerializer(channels, context={"request": request}, many=True)
     return Response(serializer.data)
 
