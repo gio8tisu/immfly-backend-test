@@ -18,7 +18,9 @@ class Command(BaseCommand):
 
     def handle(self, **options):
         with open(options["output_file"], "w", newline="") as fd:
-            fieldnames = ["channel_id", "channel_rating"]
+            RATING_COLUMN = "average_rating"
+            NAME_COLUMN = "channel_title"
+            fieldnames = [NAME_COLUMN, RATING_COLUMN]
             writer = csv.DictWriter(fd, fieldnames=fieldnames)
             writer.writeheader()
 
@@ -27,9 +29,9 @@ class Command(BaseCommand):
             ratings = []
             for channel in Channel.objects.all():
                 rating = compute_channel_rating(channel)
-                ratings.append({"channel_id": channel.id, "channel_rating": rating})
+                ratings.append({NAME_COLUMN: channel.title, RATING_COLUMN: rating})
 
-            ratings.sort(key=itemgetter("channel_rating"), reverse=True)
+            ratings.sort(key=itemgetter(RATING_COLUMN), reverse=True)
 
             logger.info("Writing CSV file")
             writer.writerows(ratings)
