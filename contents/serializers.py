@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from .models import Channel, Content
+from .services import compute_channel_rating
 
 
 class ContentSerializer(serializers.ModelSerializer):
@@ -16,7 +17,11 @@ class ContentSerializer(serializers.ModelSerializer):
 
 class ChannelSerializer(serializers.ModelSerializer):
     language = serializers.SlugRelatedField(slug_field="language", read_only=True)
+    rating = serializers.SerializerMethodField()
+
+    def get_rating(self, obj):
+        return compute_channel_rating(obj)
 
     class Meta:
         model = Channel
-        fields = ["id", "title", "language", "contents", "subchannels"]
+        fields = ["id", "title", "language", "rating", "contents", "subchannels"]
