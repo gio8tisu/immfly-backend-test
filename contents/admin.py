@@ -12,7 +12,7 @@ class ChannelAdmin(admin.ModelAdmin):
     fieldsets = [
         (
             "Channel information",
-            {"fields": ["title", "language", "picture"]},
+            {"fields": ["title", "language", "picture", "parent_channel"]},
         )
     ]
     list_display = ["id", "title"]

@@ -8,6 +8,22 @@ class Channel(models.Model):
     title = models.CharField(max_length=128)
     language = models.ForeignKey("ChannelLanguage", on_delete=models.PROTECT)
     picture = models.ImageField()
+    parent_channel = models.ForeignKey(
+        "self",
+        on_delete=models.CASCADE,
+        related_name="subchannels",
+        null=True,
+        blank=True,
+    )
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                name="%(app_label)s_%(class)s_prevent_self_reference",
+                check=models.Q(parent_channel=None)
+                | ~models.Q(parent_channel=models.F("id")),
+            ),
+        ]
 
 
 class Content(models.Model):
