@@ -15,8 +15,8 @@ class ContentSerializer(serializers.ModelSerializer):
 
 
 class ChannelSerializer(serializers.ModelSerializer):
-    contents = ContentSerializer(many=True)
+    language = serializers.SlugRelatedField(slug_field="language", read_only=True)
 
     class Meta:
         model = Channel
-        fields = ["id", "title", "language", "contents"]
+        fields = ["id", "title", "language", "contents", "subchannels"]
