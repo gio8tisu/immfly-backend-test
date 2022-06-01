@@ -11,7 +11,7 @@ class ContentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Content
-        fields = ["id", "file", "rating", "genre", "authors"]
+        fields = ["id", "file", "description", "rating", "genre", "authors"]
 
 
 class ChannelSerializer(serializers.ModelSerializer):
