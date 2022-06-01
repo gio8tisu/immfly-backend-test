@@ -55,12 +55,10 @@ paths:
                   results:
                     type: array
                     items:
-                      anyOf:
-                        - $ref: '#/components/schemas/ChannelWithContents'
-                        - $ref: '#/components/schemas/ChannelWithSubchannels'
+                      $ref: '#/components/schemas/Channel'
           description: ""
       tags:
-        - channels
+        - contents
   /api/channels/{id}/:
     get:
       operationId: retrieveChannel
@@ -77,12 +75,30 @@ paths:
           content:
             application/json:
               schema:
-                anyOf:
-                  - $ref: '#/components/schemas/ChannelWithContents'
-                  - $ref: '#/components/schemas/ChannelWithSubchannels'
+                $ref: '#/components/schemas/Channel'
           description: ""
       tags:
-        - channels
+        - contents
+  /api/contents/{id}/:
+    get:
+      operationId: retrieveContent
+      description: API endpoint that allows content retrieval.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: A UUID string identifying this content.
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Content'
+          description: ""
+      tags:
+        - contents
 
 components:
   schemas:
@@ -103,26 +119,16 @@ components:
           type: integer
           minimum: 1
           maximum: 10
-    ChannelWithContents:
-      allOf:
-        - $ref: '#/components/schemas/Channel'
-        - type: object
-          properties:
-            contents:
-              type: array
-              items:
-                $ref: "#/components/schemas/Content"
-    ChannelWithSubchannels:
-      allOf:
-        - $ref: '#/components/schemas/Channel'
-        - type: object
-          properties:
-            subchannels:
-              type: array
-              items:
-                anyOf:
-                  - $ref: '#/components/schemas/ChannelWithContents'
-                  - $ref: '#/components/schemas/ChannelWithSubchannels'
+        contents:
+          type: array
+          items:
+            type: string
+            format: uuid
+        subchannels:
+          type: array
+          items:
+            type: string
+            format: uuid
     Content:
       type: object
       properties:
