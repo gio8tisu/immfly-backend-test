@@ -1,11 +1,6 @@
-import factory
-from django.core.files.base import ContentFile
 from django.test import TestCase
 
-from contents.factories import (AuthorFactory, ChannelFactory,
-                                ChannelLanguageFactory, ContentFactory,
-                                ContentGenreFactory)
-from contents.models import Channel
+from contents.factories import ChannelFactory, ContentFactory
 from contents.services import compute_channel_rating
 
 

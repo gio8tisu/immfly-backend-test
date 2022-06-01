@@ -1,4 +1,6 @@
-from django.db.models import Avg
+from django.db.models import Avg, Count
+
+from .models import Channel
 
 
 def compute_channel_rating(channel):
@@ -19,3 +21,9 @@ def compute_channel_rating(channel):
     # Channel has subchannels.
     subchannels_ratings = [compute_channel_rating(s) for s in channel.subchannels.all()]
     return sum(subchannels_ratings) / len(subchannels_ratings)
+
+
+def get_channels_with_subchannels():
+    return Channel.objects.annotate(Count("subchannels")).filter(
+        subchannels__count__gt=0
+    )

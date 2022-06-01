@@ -13,49 +13,14 @@ paths:
     get:
       operationId: listChannels
       description: API endpoint that allows channels listing.
-      parameters:
-        - name: page
-          required: false
-          in: query
-          description: A page number within the paginated result set.
-          schema:
-            type: integer
-        - name: search
-          required: false
-          in: query
-          description: A search term.
-          schema:
-            type: string
-        - name: ordering
-          required: false
-          in: query
-          description: Which field to use when ordering the results.
-          schema:
-            type: string
       responses:
         "200":
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    example: 123
-                  next:
-                    type: string
-                    nullable: true
-                    format: uri
-                    example: http://api.example.org/channels/?page=4
-                  previous:
-                    type: string
-                    nullable: true
-                    format: uri
-                    example: http://api.example.org/channels/?page=2
-                  results:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Channel'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Channel'
           description: ""
       tags:
         - contents

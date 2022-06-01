@@ -30,7 +30,7 @@ class ContentTests(TestCase):
             content.full_clean()
 
 
-class ChannelTests(TestCase):
+class ChannelManagerTests(TestCase):
     def test_create_channel_works_with_content(self):
         picture = ContentFile(
             factory.django.ImageField()._make_data({"width": 1024, "height": 1024}),
