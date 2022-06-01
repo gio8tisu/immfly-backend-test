@@ -123,12 +123,12 @@ components:
           type: array
           items:
             type: string
-            format: uuid
+            format: uri
         subchannels:
           type: array
           items:
             type: string
-            format: uuid
+            format: uri
     Content:
       type: object
       properties:

@@ -12,7 +12,7 @@ def channels_list(request):
     List channels.
     """
     channels = Channel.objects.all()
-    serializer = ChannelSerializer(channels, many=True)
+    serializer = ChannelSerializer(channels, context={"request": request}, many=True)
     return Response(serializer.data)
 
 
@@ -23,7 +23,7 @@ def channel_detail(request, pk):
     """
     channel = get_object_or_404(Channel, pk=pk)
 
-    serializer = ChannelSerializer(channel)
+    serializer = ChannelSerializer(channel, context={"request": request})
     return Response(serializer.data)
 
 

@@ -18,6 +18,12 @@ class ContentSerializer(serializers.ModelSerializer):
 class ChannelSerializer(serializers.ModelSerializer):
     language = serializers.SlugRelatedField(slug_field="language", read_only=True)
     rating = serializers.SerializerMethodField()
+    contents = serializers.HyperlinkedRelatedField(
+        many=True, read_only=True, view_name="content-detail"
+    )
+    subchannels = serializers.HyperlinkedRelatedField(
+        many=True, read_only=True, view_name="channel-detail"
+    )
 
     def get_rating(self, obj):
         return compute_channel_rating(obj)
